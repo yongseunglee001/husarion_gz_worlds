@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+
+<sdf version="1.6">
+  <world name="husarion_world">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <plugin filename="ignition-gazebo-contact-system" name="gz::sim::systems::Contact" />
+    <plugin filename="ignition-gazebo-imu-system" name="gz::sim::systems::Imu" />
+    <plugin filename="ignition-gazebo-physics-system" name="gz::sim::systems::Physics" />
+    <plugin filename="ignition-gazebo-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster" />
+    <plugin filename="ignition-gazebo-sensors-system" name="gz::sim::systems::Sensors" />
+    <plugin filename="ignition-gazebo-user-commands-system" name="gz::sim::systems::UserCommands" />
+
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>50.088384</latitude_deg>
+      <longitude_deg>19.939128</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+
+    <model name="husarion_world">
+      <static>true</static>
+      <link name="mesh">
+        <pose>13.0 16.0 0 0 0 -1.57</pose>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>model://HusarionLogo/meshes/husarion_logo.dae</uri>
+              <scale>6.0 6.0 6.0</scale>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+
+      <link name="map">
+        <light type="directional" name="sun">
+          <cast_shadows>true</cast_shadows>
+          <pose>0 0 10 0 0 0</pose>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+          <specular>0.2 0.2 0.2 1</specular>
+          <attenuation>
+            <range>1000</range>
+            <constant>0.9</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+          </attenuation>
+          <direction>-0.5 0.1 -0.9</direction>
+        </light>
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>25 25</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>25 25</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Dynamic pallet at map x ~= 4.0 m from spawn
+         (spawn world: 4.5 -8.8 yaw 1.57, map +x ~= world +y). -->
+    <model name="mission_pallet_1">
+      <pose>4.5 -4.8 0.0 0 0 1.57</pose>
+      <static>false</static>
+      <link name="body">
+        <inertial>
+          <pose>0 0 0.12 0 0 0</pose>
+          <mass>120.0</mass>
+          <inertia>
+            <ixx>7.0</ixx>
+            <iyy>15.0</iyy>
+            <izz>20.8</izz>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyz>0</iyz>
+          </inertia>
+        </inertial>
+
+        <collision name="top_deck">
+          <pose>0 0 0.18 0 0 0</pose>
+          <geometry><box><size>1.20 0.80 0.05</size></box></geometry>
+          <surface>
+            <friction><ode><mu>1.4</mu><mu2>1.4</mu2></ode></friction>
+            <contact>
+              <ode>
+                <kp>1000000</kp>
+                <kd>800</kd>
+                <max_vel>0.05</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+        <visual name="top_deck_visual">
+          <pose>0 0 0.18 0 0 0</pose>
+          <geometry><box><size>1.20 0.80 0.05</size></box></geometry>
+          <material><ambient>0.55 0.36 0.18 1</ambient><diffuse>0.55 0.36 0.18 1</diffuse></material>
+        </visual>
+
+        <collision name="runner_left">
+          <pose>0 0.35 0.06 0 0 0</pose>
+          <geometry><box><size>1.20 0.08 0.12</size></box></geometry>
+          <surface>
+            <friction><ode><mu>1.4</mu><mu2>1.4</mu2></ode></friction>
+            <contact>
+              <ode>
+                <kp>1000000</kp>
+                <kd>800</kd>
+                <max_vel>0.05</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+        <visual name="runner_left_visual">
+          <pose>0 0.35 0.06 0 0 0</pose>
+          <geometry><box><size>1.20 0.08 0.12</size></box></geometry>
+          <material><ambient>0.45 0.28 0.13 1</ambient><diffuse>0.45 0.28 0.13 1</diffuse></material>
+        </visual>
+
+        <collision name="runner_center">
+          <pose>0 0 0.06 0 0 0</pose>
+          <geometry><box><size>1.20 0.08 0.12</size></box></geometry>
+          <surface>
+            <friction><ode><mu>1.4</mu><mu2>1.4</mu2></ode></friction>
+            <contact>
+              <ode>
+                <kp>1000000</kp>
+                <kd>800</kd>
+                <max_vel>0.05</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+        <visual name="runner_center_visual">
+          <pose>0 0 0.06 0 0 0</pose>
+          <geometry><box><size>1.20 0.08 0.12</size></box></geometry>
+          <material><ambient>0.45 0.28 0.13 1</ambient><diffuse>0.45 0.28 0.13 1</diffuse></material>
+        </visual>
+
+        <collision name="runner_right">
+          <pose>0 -0.35 0.06 0 0 0</pose>
+          <geometry><box><size>1.20 0.08 0.12</size></box></geometry>
+          <surface>
+            <friction><ode><mu>1.4</mu><mu2>1.4</mu2></ode></friction>
+            <contact>
+              <ode>
+                <kp>1000000</kp>
+                <kd>800</kd>
+                <max_vel>0.05</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+            </contact>
+          </surface>
+        </collision>
+        <visual name="runner_right_visual">
+          <pose>0 -0.35 0.06 0 0 0</pose>
+          <geometry><box><size>1.20 0.08 0.12</size></box></geometry>
+          <material><ambient>0.45 0.28 0.13 1</ambient><diffuse>0.45 0.28 0.13 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
