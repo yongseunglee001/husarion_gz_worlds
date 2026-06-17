@@ -87,20 +87,22 @@
     <!-- forklift_ws: pallet assets on the open floor ahead of the robot
          spawn (~-8 -8, fork side +x). Meshes resolve from
          ${FORKLIFT_WS}/asset via GZ_SIM_RESOURCE_PATH (sim.launch.py). -->
+    <!-- yaw 1.5708: rotate 90 deg so the open-bottom fork-pocket face (the real
+         fork-entry side, per pallet spec) points toward the robot spawn (+x). -->
     <include>
       <uri>model://Pallet</uri>
       <name>pallet_1</name>
-      <pose>-3.5 -8.0 0 0 0 0</pose>
+      <pose>-3.5 -8.0 0 0 0 1.5708</pose>
     </include>
     <include>
       <uri>model://Pallet</uri>
       <name>pallet_2</name>
-      <pose>-3.5 -6.0 0 0 0 0</pose>
+      <pose>-3.5 -6.0 0 0 0 1.5708</pose>
     </include>
     <include>
       <uri>model://Pallet</uri>
       <name>pallet_3</name>
-      <pose>-2.0 -10.0 0 0 0 0.5</pose>
+      <pose>-2.0 -10.0 0 0 0 2.0708</pose>
     </include>
   </world>
 </sdf>
